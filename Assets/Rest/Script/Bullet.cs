@@ -5,6 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed;
+    public float penetration = 0;
+
     Vector3 direction;
     public void Fire(Vector3 direction, bool lockY = false, float bonusSpeed = 0)
     {
@@ -28,7 +30,11 @@ public class Bullet : MonoBehaviour
         if (other.GetComponent<Enemy>() != null ) 
         {
             other.GetComponent<Enemy>().TakeDamage(1);
-            Destroy(this.gameObject);
+            penetration--;
+            if(penetration < 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }
