@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Rest/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
-    path: Assets/Rest/TestLevel.unity
+    path: Assets/Rest/ProbeLevels/TestLevel.unity
     guid: 14b6b6b190bfc8b4bb3971c6b7bbe4f8
   - enabled: 1
-    path: Assets/Rest/Level.unity
+    path: Assets/Rest/ProbeLevels/Level.unity
     guid: 0dbd2f3b37cbcf54f97421a3acc4629c
   m_configObjects: {}
