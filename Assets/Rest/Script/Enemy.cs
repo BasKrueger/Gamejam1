@@ -24,16 +24,30 @@ public class Enemy : MonoBehaviour
 
     public DamageNumbers numbers;
 
+    public Player player;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Base>() != null)
+        if (Base.Instance.attackPlayerInsteadOfBase)
         {
-            isBaseInRange = true;
+            if (other.GetComponent<Player>() != null)
+            {
+                FindObjectOfType<Player>().TakeDamage(damage);
+                EnemyDeath();
+            }
+        }
+        else
+        {
+            if (other.GetComponent<Base>() != null)
+            {
+                isBaseInRange = true;
+            }
         }
     }
 
     private void Awake()
     {
+        player = FindObjectOfType<Player>();
         agent = GetComponent<NavMeshAgent>();
         hpBar = GetComponentInChildren<HPBar>();
 
@@ -72,7 +86,15 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        WalkTowardsTarget();
+        if (Base.Instance.attackPlayerInsteadOfBase)
+        {
+            WalkTowardsPlayer();
+        }
+        else
+        {
+            WalkTowardsTarget();
+        }
+
     }
 
     public void EnemyDeath()
@@ -85,6 +107,11 @@ public class Enemy : MonoBehaviour
     public void WalkTowardsTarget()
     {
         agent.SetDestination(Base.Instance.transform.position);
+    }
+
+    public void WalkTowardsPlayer()
+    {
+        agent.SetDestination(player.transform.position);
     }
 
     public void AttackTarget()

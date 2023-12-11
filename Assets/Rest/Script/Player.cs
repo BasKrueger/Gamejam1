@@ -1,14 +1,15 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    public int maxHP = 20;
+
+    public int hp;
+
     private Rigidbody rb;
     public float speed;
 
@@ -45,10 +46,20 @@ public class Player : MonoBehaviour
 
     public List<float> levelUpCosts;
 
+    private DamageNumbers damageNumbers;
+    public HPBar hpBar;
+
+
+
     private void Awake()
     {
+        damageNumbers = GetComponentInChildren<DamageNumbers>();
         rb = GetComponent<Rigidbody>();
         levelUpSFX = GetComponent<AudioSource>();
+        hpBar = GetComponentInChildren<HPBar>();
+
+        hp = maxHP;
+        hpBar.SetHealthBar(maxHP, hp);
     }
 
     private void Update()
@@ -202,5 +213,22 @@ public class Player : MonoBehaviour
 
             instance.transform.SetParent(templateHolder);
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (damageNumbers != null)
+        {
+            damageNumbers.PrintDamageNumber(damage, Color.red);
+        }
+
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            FindObjectOfType<Base>().BaseDeath();
+        }
+
+        hpBar.SetHealthBar(maxHP, hp);
     }
 }

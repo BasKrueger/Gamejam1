@@ -7,13 +7,13 @@ public class EnemySpawner : MonoBehaviour
     GameObject EnemyPrefab;
 
     [SerializeField]
-    private float startCooldown = 3.0f;
+    public float startCooldown = 3.0f;
 
     private float cooldown;
     public float startDelay;
 
-    private float time;
-    private float startTimer;
+    public float time;
+    public float startTimer;
 
     private void Awake()
     {

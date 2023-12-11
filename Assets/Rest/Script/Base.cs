@@ -17,6 +17,8 @@ public class Base : MonoBehaviour
     private DamageNumbers damageNumbers;
     public HPBar hpBar;
 
+    public bool attackPlayerInsteadOfBase = true;
+
     private void Awake()
     {
         Instance = this;
