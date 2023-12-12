@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -79,6 +80,11 @@ public class Player : MonoBehaviour
         SpawnTurret();
         SelectWeapon();
         ShowWeaponFrame();
+
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void LevelUp()

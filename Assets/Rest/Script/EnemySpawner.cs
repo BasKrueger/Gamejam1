@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Playables;
 
 public class EnemySpawner : MonoBehaviour
@@ -40,7 +41,8 @@ public class EnemySpawner : MonoBehaviour
     {
         var spawnedEnemy = Instantiate(EnemyPrefab);
 
-        spawnedEnemy.transform.position = transform.position;
+        var pos = new Vector3(transform.position.x, 0.0f, transform.position.z);
+        spawnedEnemy.GetComponent<NavMeshAgent>().Warp(pos);
     }
 
     private void RandomizeTimer()
