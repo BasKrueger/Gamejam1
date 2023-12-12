@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Base.Instance.attackPlayerInsteadOfBase)
+        if (Base.Instance == null)
         {
             if (other.GetComponent<Player>() != null)
             {
@@ -58,8 +58,6 @@ public class Enemy : MonoBehaviour
 
         hp = maxHP;
         hpBar.SetHealthBar(maxHP, hp);
-
-        
     }
 
     public void TakeDamage(int damage)
@@ -86,7 +84,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        if (Base.Instance.attackPlayerInsteadOfBase)
+        if (Base.Instance == null)
         {
             WalkTowardsPlayer();
         }

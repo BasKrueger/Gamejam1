@@ -226,9 +226,16 @@ public class Player : MonoBehaviour
 
         if (hp <= 0)
         {
-            FindObjectOfType<Base>().BaseDeath();
+            PlayerDeath();
         }
 
         hpBar.SetHealthBar(maxHP, hp);
+    }
+
+    private void PlayerDeath()
+    {
+        hp = maxHP;
+        Ressources.XP = 0;
+        levelProgress.fillAmount = 0;
     }
 }

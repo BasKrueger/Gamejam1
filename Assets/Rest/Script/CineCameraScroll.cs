@@ -19,10 +19,19 @@ public class CineCameraScroll : MonoBehaviour
 
     private void Update()
     {
+        if (iterator < 0 || iterator > virtualCameras.Length) return;
         if (virtualCameras[iterator] == null) return;
         if (transform.position == virtualCameras[iterator - 1].transform.position)
         {
-            GoToNextCam();
+
+            if (virtualCameras[iterator - 1].GetComponent<VCamTimer>().isBaseFight)
+            {
+                virtualCameras[iterator - 1].GetComponent<VCamTimer>().SetBaseInstance(true);
+            }
+            else
+            {
+                GoToNextCam();
+            }
         }
     }
 

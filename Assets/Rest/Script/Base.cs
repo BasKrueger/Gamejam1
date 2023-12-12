@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class Base : MonoBehaviour
 {
     public static Base Instance 
-    { get; private set; }
+    { get;  set; }
 
     [SerializeField]
     public int maxHP = 500;
@@ -21,10 +21,14 @@ public class Base : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
         damageNumbers = GetComponentInChildren<DamageNumbers>();
         hp = maxHP;
         hpBar.SetHealthBar(maxHP, hp);
+    }
+
+    public void SetInstance(bool value)
+    {
+        Instance = value ? this : null;
     }
 
     public void TakeDamage(int damage)
