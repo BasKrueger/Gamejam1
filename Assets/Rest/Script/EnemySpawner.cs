@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     public float startDelay;
 
     public float time;
-    private float startTimer;
+    public float startTimer;
 
     private void Awake()
     {
