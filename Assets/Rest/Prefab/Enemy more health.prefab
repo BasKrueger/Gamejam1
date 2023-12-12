@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0a3d60a70b10e43ac3b40c2ec7dece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 12
+  maxHP: 10
   hp: 5
   damage: 1
   coin: {fileID: 8862104905162842760, guid: 88472ef88034eb742bb912d14201e3b5, type: 3}

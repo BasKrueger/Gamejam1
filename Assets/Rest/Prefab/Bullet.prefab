@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  penetration: 2
+  penetration: 3
 --- !u!54 &5518403436796677316
 Rigidbody:
   m_ObjectHideFlags: 0
