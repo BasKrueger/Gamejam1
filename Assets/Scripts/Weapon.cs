@@ -9,6 +9,8 @@ public abstract class Weapon : MonoBehaviour
 
     public bool lockY;
 
+    public int order;
+
     private void Start()
     {
         activeCooldown = cooldown;

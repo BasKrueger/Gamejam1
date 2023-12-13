@@ -53,6 +53,7 @@ public class Base : MonoBehaviour
         // todo
         VFX.gameObject.SetActive(true);
         GameOverScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
         //Destroy(gameObject);
         //Destroy(Instance);
     }

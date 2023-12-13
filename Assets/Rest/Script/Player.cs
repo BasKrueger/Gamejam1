@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
     public GenericTower genericTowerTemplate;
 
     public Weapon selectedWeapon;
-    public List<Weapon> weapons = new List<Weapon>();
+    public Dictionary<int, Weapon> weapons = new Dictionary<int, Weapon>();
 
     public Image template;
     public Transform templateHolder;
@@ -50,10 +51,12 @@ public class Player : MonoBehaviour
     private DamageNumbers damageNumbers;
     public HPBar hpBar;
 
-
+    public Canvas GameOverScreen;
 
     private void Awake()
     {
+        Time.timeScale = 1.0f;
+
         damageNumbers = GetComponentInChildren<DamageNumbers>();
         rb = GetComponent<Rigidbody>();
         levelUpSFX = GetComponent<AudioSource>();
@@ -61,6 +64,8 @@ public class Player : MonoBehaviour
 
         hp = maxHP;
         hpBar.SetHealthBar(maxHP, hp);
+        AddWeapon(weaponslot.GetComponentInChildren<Weapon>());
+        ShowWeaponFrame();
     }
 
     private void Update()
@@ -79,7 +84,7 @@ public class Player : MonoBehaviour
        // Attack();
         SpawnTurret();
         SelectWeapon();
-        ShowWeaponFrame();
+
 
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
@@ -106,12 +111,13 @@ public class Player : MonoBehaviour
             level++;
 
             var weapon = allWeapons[UnityEngine.Random.Range(0, allWeapons.Count)];
-            var t = Instantiate(weapon);
-            AddWeapon(t);
+            var weaponInstance = Instantiate(weapon);
+            AddWeapon(weaponInstance);
 
             levelUpSFX.Play();
             //levelUpVFX.Play();
         }
+        ShowWeaponFrame();
     }
 
     private void Move()
@@ -165,32 +171,40 @@ public class Player : MonoBehaviour
                 turret.transform.position = position;
 
                 turret.AddWeapon(selectedWeapon);
-                weapons.Remove(selectedWeapon);
+                weapons.Remove(selectedWeapon.order);
                 selectedWeapon = null;
             }
         }
+        ShowWeaponFrame();
     }
 
     void SelectWeapon()
     {
+        int select = -1;
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            selectedWeapon = weapons[0];
+            select = 0;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            selectedWeapon = weapons[1];
+            select = 1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            selectedWeapon = weapons[2];
+            select = 2;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            selectedWeapon = weapons[3];
+            select = 3;
         }
 
-        if(selectedWeapon != null)
+        if (weapons.ContainsKey(select))
+        {
+            selectedWeapon = weapons[select];
+            ShowWeaponFrame();
+        }
+
+        if (selectedWeapon != null)
         {
            // Debug.Log($"selected weapon: {selectedWeapon.name}");
         }
@@ -198,26 +212,34 @@ public class Player : MonoBehaviour
 
     public void AddWeapon(Weapon weapon)
     {
-        weapons.Add(weapon);
+        if (weapons.ContainsKey(weapon.order))
+        {
+            weapon.order = weapon.order + 1;
+        }
+        weapon.order = weapons.Count;
+        weapons.Add(weapon.order, weapon);
         weapon.transform.position = weaponslot.position;
         weapon.transform.SetParent(weaponslot);
     }
 
     public void ShowWeaponFrame()
     {
-        foreach(Transform t in templateHolder.transform)
+        foreach (Transform t in templateHolder.transform)
         {
             if (t == null) continue;
             Destroy(t.gameObject);
         }
 
-        foreach(Weapon w in weapons)
+        for (int i = 0; i < 4; i++)
         {
-            var instance = Instantiate(template);
-            template.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = w.name;
-            template.transform.Find("active").GetComponent<TextMeshProUGUI>().text = (w == selectedWeapon) ? "Selected" : "";
+            if (!weapons.ContainsKey(i)) continue;
+            if (weapons[i] == weaponslot) continue;
 
-            instance.transform.SetParent(templateHolder);
+            var instance = Instantiate(template, templateHolder.transform);
+            instance.transform.SetSiblingIndex(i - 1);
+            string weaponName = weapons[i].name.Replace("(Clone)", "");
+            template.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = weaponName + " " + (weapons[i].order + 1);
+            template.transform.Find("active").GetComponent<TextMeshProUGUI>().text = (weapons[i].GetComponent<Weapon>() == selectedWeapon) ? "Selected" : "";
         }
     }
 
@@ -240,8 +262,7 @@ public class Player : MonoBehaviour
 
     private void PlayerDeath()
     {
-        hp = maxHP;
-        Ressources.XP = 0;
-        levelProgress.fillAmount = 0;
+        GameOverScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
     }
 }

@@ -7,6 +7,6 @@ public class CoinCounter : MonoBehaviour
 {
     private void Update()
     {
-        GetComponent<TextMeshProUGUI>().text = $"Coins: {Ressources.value}";
+        GetComponent<TextMeshProUGUI>().text = $"XP: {Ressources.value}";
     }
 }

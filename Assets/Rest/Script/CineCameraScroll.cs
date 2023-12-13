@@ -19,7 +19,7 @@ public class CineCameraScroll : MonoBehaviour
 
     private void Update()
     {
-        if (iterator < 0 || iterator > virtualCameras.Length) return;
+        if (iterator < 0 || iterator > virtualCameras.Length - 1) return;
         if (virtualCameras[iterator] == null) return;
         if (transform.position == virtualCameras[iterator - 1].transform.position)
         {
