@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5048b3629b2667847903628be7f4c9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
+  maxHP: 50
   hp: 10
   VFX: {fileID: 993357154974854929}
   GameOverScreen: {fileID: 8072497856037382548}
